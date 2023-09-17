@@ -27,9 +27,9 @@ posts
                 от переменных в Python. Здесь также можно получать доступ к
                 полям объекта модели. Например, здесь мы выводим имя,
                 в следующем столбце описание, и т.д.  -->
-                <td>{{ new.title }}</td>
+                <td>{{ new.title|censor }}</td>
                 <td>{{ new.dateCreation|date:'M d Y' }}</td>
-                <td>{{ new.text|truncatewords:20 }}</td>
+                <td>{{ new.text|censor }}</td>
                 <td>
                    {% for news in new.postCategory.all %}
                         {{ news.name }}

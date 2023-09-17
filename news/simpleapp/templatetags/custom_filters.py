@@ -3,17 +3,16 @@ from django import template
 
 register = template.Library()
 
-
-
-censor_words = ['редиска','дурень','ишак']
+bad_words = ['коза', 'дурак', 'жаба']
 
 @register.filter()
-def censor(value):
-    text = []
-    text1 = value.split(" ")
-    for i in text1:
-        for i in censor_words:
-            i = '****'
-        text.append(i)
-    return " ".join(text)
+
+
+
+def censor(sentence):
+    text = sentence.split()
+    for i, word in enumerate(text):
+        if word in bad_words:
+            text[i] = word[0] + '***'
+    return ' '.join(text)
     
