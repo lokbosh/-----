@@ -1,17 +1,16 @@
 from typing import Any
-from django.views.generic import ListView,DetailView,UpdateView,DeleteView
+from django.views.generic import ListView,DetailView,UpdateView,DeleteView,CreateView
 from .models import Post
 from .filters import PostFilter
-from django.shortcuts import render
 from .forms import PostForm
-from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 class NewsList(ListView):
     model = Post
     ordering = '-dateCreation'
     template_name = 'news.html'
     context_object_name = 'news'
-    paginate_by = 1
+    paginate_by = 10
     
     
     
@@ -37,14 +36,11 @@ class NewsDetail(DetailView):
     template_name = 'new.html'
     context_object_name = 'new'
 
-def create_post(request):
-    form = PostForm()
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/news/')
-    return render(request, 'post_edit.html',{'form':form})
+class NewsCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
+    form_class = PostForm
+    model = Post
+    template_name = 'post_edit.html'
 
 class NewsUpdate(UpdateView):
     form_class = PostForm
