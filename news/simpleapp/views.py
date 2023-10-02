@@ -3,7 +3,7 @@ from django.views.generic import ListView,DetailView,UpdateView,DeleteView,Creat
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 class NewsList(ListView):
     model = Post
@@ -36,18 +36,20 @@ class NewsDetail(DetailView):
     template_name = 'new.html'
     context_object_name = 'new'
 
-class NewsCreate(LoginRequiredMixin, CreateView):
-    raise_exception = True
+class NewsCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('simpleapp.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
 
-class NewsUpdate(UpdateView):
+class NewsUpdate(PermissionRequiredMixin,UpdateView):
+    permission_required = ('simpleapp.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
 
-class NewsDelete(DeleteView):
+class NewsDelete(PermissionRequiredMixin,DeleteView):
+    permission_required = ('simpleapp.delete_posts',)
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
