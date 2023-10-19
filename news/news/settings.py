@@ -39,14 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'simpleapp',
+    'simpleapp.apps.SimpleappConfig',
     'django_filters',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    "django_apscheduler",
 ]
 
+
+CELERY_BROKER_URL = 'redis://default:VCtxe7QSCPTdSlsBc5BXcuumNM6eRREK:redis-19460.c304.europe-west1-2.gce.cloud.redislabs.com:19460'
+CELERY_RESULT_BACKEND = 'redis://default:VCtxe7QSCPTdSlsBc5BXcuumNM6eRREK:redis-19460.c304.europe-west1-2.gce.cloud.redislabs.com:19460'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+SITE_URL = 'http://127.0.0.1:8000'
 LOGIN_REDIRECT_URL = "/news"
 
 SITE_ID = 1
@@ -55,7 +64,17 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'None'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "Lokboshh@yandex.ru"
+EMAIL_HOST_PASSWORD = "ymwkdxlhavnkfqpg"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = "Lokboshh@yandex.ru"
+SERVER_EMAIL = "Lokboshh@yandex.ru"
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
@@ -153,3 +172,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
