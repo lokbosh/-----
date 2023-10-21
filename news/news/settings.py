@@ -49,8 +49,8 @@ INSTALLED_APPS = [
 ]
 
 
-CELERY_BROKER_URL = 'redis://default:VCtxe7QSCPTdSlsBc5BXcuumNM6eRREK:redis-19460.c304.europe-west1-2.gce.cloud.redislabs.com:19460'
-CELERY_RESULT_BACKEND = 'redis://default:VCtxe7QSCPTdSlsBc5BXcuumNM6eRREK:redis-19460.c304.europe-west1-2.gce.cloud.redislabs.com:19460'
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -64,7 +64,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'None'
+ACCOUNT_EMAIL_VERIFICATION = 'mendatory'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465

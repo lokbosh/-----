@@ -5,6 +5,7 @@ from django.urls import reverse
 class Author(models.Model): 
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
     ratingAuthor = models.SmallIntegerField(default=0)
+        
     
     def update_rating(self):
         postRat = self.post_set.aggregate(postRating=Sum('rating'))  
@@ -17,14 +18,17 @@ class Author(models.Model):
         
         self.ratingAuthor = pRat * 3 + cRat
         self.save()
-    
+
+        
+    def __str__(self):
+        return self.authorUser.username
     
     
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
     subscribers = models.ManyToManyField(User,related_name='categories')
     def __str__(self):
-        return self.name.title()
+        return self.name
     
 
 class Post(models.Model):
@@ -62,7 +66,7 @@ class Post(models.Model):
         return reverse('news_detail', args=[str(self.id)])
     
     def __str__(self):
-        return f'{self.title[:]}: {self.text[:20]}'
+        return f'{self.title[:]}: {self.text[:20]}:{self.User}'
     
 class PostCategory(models.Model):
     postThrough= models.ForeignKey(Post, on_delete=models.CASCADE)

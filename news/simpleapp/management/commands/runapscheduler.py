@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from django_apscheduler import util
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
-from datetime import datetime
+import datetime
 from simpleapp.models import Post,Category
 from django.template.loader import render_to_string
 logger = logging.getLogger(__name__)
@@ -35,7 +35,7 @@ def my_job():
         to=subscribers,
     )
     msg.attach_alternative(html_content,'text/html')
-    msg.send
+    msg.send()
 
 # The `close_old_connections` decorator ensures that database connections,
 # that have become unusable or are obsolete, are closed before and after your
@@ -64,7 +64,7 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             my_job,
-            trigger=CronTrigger(),  # Every 10 seconds
+            trigger=CronTrigger(day_of_week='FRI',hour='18',),  # Every 10 seconds
             id="my_job",  # The `id` assigned to each job MUST be unique
             max_instances=1,
             replace_existing=True,
