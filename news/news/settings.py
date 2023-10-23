@@ -54,7 +54,7 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-
+CELERY_ACKS_LATE = True
 SITE_URL = 'http://127.0.0.1:8000'
 LOGIN_REDIRECT_URL = "/news"
 

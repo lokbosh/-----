@@ -1,16 +1,15 @@
 from typing import Any
-from django.db.models.query import QuerySet
 from django.views.generic import ListView,DetailView,UpdateView,DeleteView,CreateView
 from .models import Post,Category
 from .filters import PostFilter
 from .forms import PostForm
-from django.db.models import Exists, OuterRef
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404,render
-from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-
+from .tasks import hello
+from django.views import View
+from django.http import HttpResponse
 class NewsList(ListView):
     model = Post
     ordering = '-dateCreation'
@@ -86,3 +85,8 @@ def subscribe(request,pk):
     
     message = 'Вы успешно подписались на рассылку новостей категории'
     return render(request,'subscribe.html',{'category':category,'message':message})
+
+class IndexView(View):
+    def get(self, request):
+        hello.delay()
+        return HttpResponse('Hello!')
