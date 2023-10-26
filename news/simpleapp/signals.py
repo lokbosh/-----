@@ -1,42 +1,11 @@
+from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
-from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from simpleapp.models import PostCategory
+from .models import PostCategory
+from .tasks import post_created
 
-def send_notifications(preview,pk,title,subscribers):
-    html_content = render_to_string(   
-        'email_ras/post_created_email.html',
-        {
-            'text':preview,
-            'link': f'{settings.SITE_URL}/news/{pk}'
-        }
-    )
 
-    msg = EmailMultiAlternatives(
-        subject=title,
-        body='',
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=subscribers,
-    )
-    
-    msg.attach_alternative(html_content, 'text/html')
-    msg.send()
-    
-    
-@receiver(m2m_changed,sender=PostCategory)
-def notify_about_new_post(sender,instance,**kwargs):
-    if kwargs['action'] == 'post_add':
-        print(f'{kwargs["action"] = }')
-        categories = instance.postCategory.all()
-        print(f'{categories = }')
-        subscribers: list[str] = []
-        for category in categories:
-            print(f'{category.subscribers.all() =}')
-            subscribers += category.subscribers.all()
-        
-        subscribers = [s.email for s in subscribers]
-        print(f'{subscribers =}')
-        
-        send_notifications(instance.preview(),instance.pk,instance.title,subscribers)
+@receiver(m2m_changed, sender=PostCategory)
+def signal_post_created(instance, sender, **kwargs):
+    post_created.delay(instance.id)

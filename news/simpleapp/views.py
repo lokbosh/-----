@@ -1,15 +1,14 @@
 from typing import Any
 from django.views.generic import ListView,DetailView,UpdateView,DeleteView,CreateView
-from .models import Post,Category
+from .models import Post,Category,Subscriber
 from .filters import PostFilter
 from .forms import PostForm
+from django.db.models import Exists, OuterRef
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404,render
 from django.contrib.auth.decorators import login_required
-from .tasks import hello
-from django.views import View
-from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_protect
 class NewsList(ListView):
     model = Post
     ordering = '-dateCreation'
@@ -46,6 +45,7 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+    
 
 class NewsUpdate(PermissionRequiredMixin,UpdateView):
     permission_required = ('simpleapp.change_post',)
@@ -77,16 +77,32 @@ class CategoryListView(ListView):
         return context
 
 
-@login_required        
-def subscribe(request,pk):
-    user = request.user
-    category = Category.objects.get(id=pk)
-    category.subscribers.add(user)
-    
-    message = 'Вы успешно подписались на рассылку новостей категории'
-    return render(request,'subscribe.html',{'category':category,'message':message})
+@login_required
+@csrf_protect
+def subscriptions(request):
+    if request.method == 'POST':
+        category_id = request.POST.get('category_id')
+        category = Category.objects.get(id=category_id)
+        action = request.POST.get('action')
 
-class IndexView(View):
-    def get(self, request):
-        hello.delay()
-        return HttpResponse('Hello!')
+        if action == 'subscribe':
+            Subscriber.objects.create(user=request.user, category=category)
+        elif action == 'unsubscribe':
+            Subscriber.objects.filter(
+                user=request.user,
+                category=category,
+            ).delete()
+
+    categories_with_subscriptions = Category.objects.annotate(
+        user_subscribed=Exists(
+            Subscriber.objects.filter(
+                user=request.user,
+                category=OuterRef('pk'),
+            )
+        )
+    ).order_by('name')
+    return render(
+        request,
+        'subscriptions.html',
+        {'categories': categories_with_subscriptions},
+    )
