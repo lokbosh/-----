@@ -3,6 +3,7 @@ from django.views.generic import ListView,DetailView,UpdateView,DeleteView,Creat
 from .models import Post,Category,Subscriber
 from .filters import PostFilter
 from .forms import PostForm
+from django.core.cache import cache
 from django.db.models import Exists, OuterRef
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
@@ -39,7 +40,18 @@ class NewsDetail(DetailView):
     model = Post
     template_name = 'new.html'
     context_object_name = 'new'
-
+    
+    def get_object(self, *args, **kwargs): # переопределяем метод получения объекта, как ни странно
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None) # кэш очень похож на словарь, и метод get действует так же. Он забирает значение по ключу, если его нет, то забирает None.
+ 
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+            return obj 
+            
+            
+        
 class NewsCreate(PermissionRequiredMixin, CreateView):
     permission_required = ('simpleapp.add_post',)
     form_class = PostForm
