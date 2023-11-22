@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7ppie(-_=%d58=3av^&n@1#cuj1p$qmc47%=)e4co7d!pcs38-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -118,6 +118,95 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'news.wsgi.application'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters':{
+        'verbose':{
+            'format':'{levelname} {asctime} {module} {message}',
+            'style':'{',
+        },
+        'with_path_and_exc_info': {
+            'format': '{levelname} {asctime} {pathname} {exc_info} {message}',
+            'style': '{',
+        },
+    
+        
+    },
+    'filters':{
+        'require_debug_true': {
+            "()": 'django.utils.log.RequireDebugTrue',
+        },
+        
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        
+    },
+    'handlers':{
+        'console':{
+            'level':'DEBUG',
+            'filters':['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'file_general':{
+            'level':'INFO',
+            'filters':['require_debug_false'],
+            'class': 'logging.FileHandler',
+            'file_name':'general.log',
+            'formatter':'verbose',
+        },
+        'file_errors':{
+            'level':'ERROR',
+            'class':'logging.FileHandlder',
+            'file_name':'errors.log',
+            'formatter':'with_path_and_exc_info',
+        },
+        'file_security':{
+            'level':'INFO',
+            'class':'logging.FileHandler',
+            'filter':['require_debug_true'],
+            'formatter':'verbose'
+        },
+        'mail_admins':{
+            'level':'ERROR',
+            'class':'django.utils.log.AdminEmailHandler',
+            'filters':['require_debug_false'],
+            'include_html': True,
+            
+        }
+        
+    },
+    'loggers':{
+        'django': {
+            'handlers': ['console', 'file_general'],
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins', 'file_errors'],
+            'level': 'ERROR',
+        },
+        'django.server': {
+            'handlers': ['mail_admins', 'file_errors'],
+            'level': 'ERROR',
+        },
+        'django.template': {
+            'handlers': ['file_errors'],
+            'level': 'ERROR',
+        },
+        'django.db.backends': {
+            'handlers': ['file_errors'],
+            'level': 'ERROR',
+        },
+        'django.security': {
+            'handlers': ['file_security'],
+            'level': 'INFO',
+        },
+    },
+}
+        
+      
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -128,11 +217,14 @@ AUTHENTICATION_BACKENDS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'Ochirov2004',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
