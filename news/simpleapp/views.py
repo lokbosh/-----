@@ -1,5 +1,5 @@
 from typing import Any
-from django.views.generic import ListView,DetailView,UpdateView,DeleteView,CreateView
+from django.views.generic import View,ListView,DetailView,UpdateView,DeleteView,CreateView
 from .models import Post,Category,Subscriber
 from .filters import PostFilter
 from .forms import PostForm
@@ -10,6 +10,15 @@ from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404,render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponse
+from django.utils.translation import gettext as _ # импортируем функцию для перевода
+
+class Index(View):
+    def get(self, request):
+        string = _('Hello world') 
+   
+        return HttpResponse(string)
+
 class NewsList(ListView):
     model = Post
     ordering = '-dateCreation'
