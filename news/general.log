@@ -1,18 +1,19 @@
-2023-11-23 17:01:39,276 INFO Watching for file changes with StatReloader autoreload 
-2023-11-23 17:04:02,886 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 
-2023-11-23 17:04:03,474 INFO Watching for file changes with StatReloader autoreload 
-2023-11-23 17:04:10,792 INFO Watching for file changes with StatReloader autoreload 
-2023-11-23 17:05:11,165 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 
-2023-11-23 17:05:11,702 INFO Watching for file changes with StatReloader autoreload 
-2023-11-25 18:09:42,377 INFO Watching for file changes with StatReloader autoreload 
-2023-11-25 18:09:57,597 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 
-2023-11-25 18:09:58,176 INFO Watching for file changes with StatReloader autoreload 
-2023-11-25 18:13:11,460 INFO Watching for file changes with StatReloader autoreload 
-2023-11-25 18:13:23,310 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 
-2023-11-25 18:13:28,199 INFO Watching for file changes with StatReloader autoreload 
-2023-11-25 18:35:25,222 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 
-2023-11-25 18:35:25,770 INFO Watching for file changes with StatReloader autoreload 
-2023-11-25 18:43:44,063 INFO Watching for file changes with StatReloader autoreload 
-2023-11-25 18:44:41,076 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 
-2023-11-25 18:44:41,748 INFO Watching for file changes with StatReloader autoreload 
-2023-11-25 18:46:17,231 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:23:04,842 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:23:37,195 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 
+2023-11-25 21:23:37,802 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:41:16,853 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:44:43,601 INFO C:\Users\Костя\news_skillffactory\news\simpleapp\urls.py changed, reloading. autoreload 
+2023-11-25 21:44:44,192 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:44:46,790 INFO C:\Users\Костя\news_skillffactory\news\simpleapp\urls.py changed, reloading. autoreload 
+2023-11-25 21:44:47,410 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:48:11,503 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:48:45,673 INFO C:\Users\Костя\news_skillffactory\news\simpleapp\models.py changed, reloading. autoreload 
+2023-11-25 21:48:46,312 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:48:49,915 INFO C:\Users\Костя\news_skillffactory\news\simpleapp\models.py changed, reloading. autoreload 
+2023-11-25 21:48:50,503 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:49:00,489 INFO C:\Users\Костя\news_skillffactory\news\simpleapp\models.py changed, reloading. autoreload 
+2023-11-25 21:49:01,085 INFO Watching for file changes with StatReloader autoreload 
+2023-11-25 21:49:29,189 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 
+2023-11-26 17:50:56,680 INFO Watching for file changes with StatReloader autoreload 
+2023-11-26 17:52:21,773 INFO Watching for file changes with StatReloader autoreload 
+2023-11-26 17:52:37,108 INFO C:\Users\Костя\news_skillffactory\news\news\settings.py changed, reloading. autoreload 

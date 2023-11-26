@@ -15,9 +15,13 @@ from django.utils.translation import gettext as _ # импортируем фу�
 
 class Index(View):
     def get(self, request):
-        string = _('Hello world') 
-   
-        return HttpResponse(string)
+        string = _('Hello world')
+
+        context = {
+            'string': string
+        }
+
+        return HttpResponse(render(request, 'index.html', context))
 
 class NewsList(ListView):
     model = Post
