@@ -1,6 +1,6 @@
 from typing import Any
 from django.views.generic import View,ListView,DetailView,UpdateView,DeleteView,CreateView
-from .models import Post,Category,Subscriber
+from .models import Post,Category,Subscriber,MyModel
 from .filters import PostFilter
 from .forms import PostForm
 from django.core.cache import cache
@@ -11,17 +11,28 @@ from django.shortcuts import get_object_or_404,render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
+from django.http.response import HttpResponse #  импортируем респонс для проверки текста    
+import pytz #  импортируем стандартный модуль для работы с часовыми поясами
+from django.views import View
+from django.utils import timezone
+from django.shortcuts import redirect
 from django.utils.translation import gettext as _ # импортируем функцию для перевода
 
 class Index(View):
     def get(self, request):
-        string = _('Hello world')
-
+        #. Translators: This message appears on the home page only
+        models = MyModel.objects.all()
+ 
         context = {
-            'string': string
+            'models': models,
+            'current_time': timezone.localtime(timezone.now()),
+            'timezones': pytz.common_timezones #  добавляем в контекст все доступные часовые пояса
         }
 
         return HttpResponse(render(request, 'index.html', context))
+    def post(self, request):
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('/news/index')
 
 class NewsList(ListView):
     model = Post
@@ -29,6 +40,7 @@ class NewsList(ListView):
     template_name = 'news.html'
     context_object_name = 'news'
     paginate_by = 10
+    
     
     
     

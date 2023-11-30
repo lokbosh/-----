@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -96,17 +97,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'basic.middlewares.TimezoneMiddleware'
 ]
 
-LOCALE_PATH = [
+LOCALE_PATHS = [
     os.path.join(BASE_DIR,'locale')
-]
+] 
 LANGUAGE_CODE = 'ru'
 LANGUAGES = [
-    ('ru', 'Русский'),
-    ('en','Английский')
+    ('en-us', 'English'),
+    ('ru', 'Русский')
 ]
+
 ROOT_URLCONF = 'news.urls'
 
 TEMPLATES = [
